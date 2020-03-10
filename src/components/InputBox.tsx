@@ -1,7 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
-import { Dispatch } from "redux";
-import { addMessage as addMessageAction } from "../actions/message";
+import { MyThunkDispatch as Dispatch } from "../actions/message";
+import { askQuestion } from "../actions/message";
 
 type OwnState = {
   message: string;
@@ -56,7 +56,7 @@ class InputBox extends React.Component<Props, OwnState> {
 }
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
-  addMessage: (message: string) => dispatch(addMessageAction(message))
+  addMessage: (message: string) => dispatch(askQuestion(message))
 });
 
 export default connect(null, mapDispatchToProps)(InputBox);
