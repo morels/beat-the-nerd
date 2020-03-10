@@ -11,7 +11,6 @@ function Message({ data, key }: { data: string; key: number }) {
 class MessageList extends React.Component<Props> {
 
   render() {
-    // const messages = ["foo", "bar", "baz"];
     const messages = this.props.messages;
 
     return (
