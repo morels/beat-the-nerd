@@ -2,6 +2,7 @@ import React from "react";
 import { connect } from "react-redux";
 import { MyThunkDispatch as Dispatch } from "../actions/message";
 import { askQuestion } from "../actions/message";
+import { applicationChangeState } from "../actions/application";
 
 type OwnState = {
   message: string;
@@ -15,6 +16,10 @@ class InputBox extends React.Component<Props, OwnState> {
   constructor(props: Props) {
     super(props);
     this.state = INITIAL_STATE;
+  }
+
+  componentDidMount() {
+    this.props.waitForUserQuestion();
   }
 
   private handleChange(event: React.ChangeEvent<HTMLInputElement>) {
@@ -56,7 +61,9 @@ class InputBox extends React.Component<Props, OwnState> {
 }
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
-  addMessage: (message: string) => dispatch(askQuestion(message))
+  addMessage: (message: string) => dispatch(askQuestion(message)),
+  waitForUserQuestion: () =>
+    dispatch(applicationChangeState("waiting for user question"))
 });
 
 export default connect(null, mapDispatchToProps)(InputBox);
