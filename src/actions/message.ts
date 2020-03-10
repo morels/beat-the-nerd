@@ -1,8 +1,8 @@
 import UIDs from "../components/UserIds";
-import { Action, Dispatch } from "redux";
+import { Action } from "redux";
 import { ThunkAction, ThunkDispatch } from "redux-thunk";
 import { initialMessagesState } from "../reducers/message";
-import { store } from "../index";
+import QueryAPIBuilder, { QueryAPIResponse } from "../components/QueryAPI";
 
 type MyRootState = typeof initialMessagesState;
 type MyExtraArg = undefined;
@@ -29,11 +29,10 @@ export const getMessage = (id: number) => ({
   id
 });
 
-// MOck
 const fetchAnswer = (question: string): Promise<string> => {
-  return new Promise(resolve => {
-    setTimeout(() => resolve("3"), 500);
-  });
+  return fetch(QueryAPIBuilder.build(question))
+    .then((response: Response) => response.json())
+    .then((response: QueryAPIResponse) => response.result);
 };
 
 export const askQuestion = (message: string): MyThunkResult<Promise<void>> => {
