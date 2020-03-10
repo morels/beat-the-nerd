@@ -3,6 +3,7 @@ import { Action } from "redux";
 import { ThunkAction, ThunkDispatch } from "redux-thunk";
 import { initialMessagesState } from "../reducers/message";
 import QueryAPIBuilder, { QueryAPIResponse } from "../components/QueryAPI";
+import { applicationChangeState } from "./application";
 
 type MyRootState = typeof initialMessagesState;
 type MyExtraArg = undefined;
@@ -38,8 +39,10 @@ const fetchAnswer = (question: string): Promise<string> => {
 export const askQuestion = (message: string): MyThunkResult<Promise<void>> => {
   return async (dispatch: MyThunkDispatch): Promise<void> => {
     dispatch(addMessage(message, UIDs.user));
+    dispatch(applicationChangeState("answering the user"));
     const answer = await fetchAnswer(message);
     dispatch(addMessage(answer, UIDs.cpu));
+    dispatch(applicationChangeState("waiting for user question"));
   };
 };
 
