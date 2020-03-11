@@ -37,23 +37,35 @@ class InputBox extends React.Component<Props, OwnState> {
     const { message } = this.state;
 
     return (
-      <div style={{ position: "fixed", bottom: 0, width: "100%" }}>
+      <div
+        style={{
+          position: "fixed",
+          bottom: 0,
+          width: "100%",
+          backgroundColor: "white"
+        }}
+      >
         <form
           onSubmit={(event: React.FormEvent<HTMLFormElement>) =>
             this.handleSubmit(event)
           }
           style={{ display: "flex" }}
         >
-          <input
-            type="text"
-            value={message}
-            onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
-              this.handleChange(event)
-            }
-            name="message"
-            style={{ flex: 1 }}
-          />
-          <input type="submit" value="Send" />
+          <div className="nes-field" style={{ flex: 1 }}>
+            <input
+              type="text"
+              value={message}
+              onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
+                this.handleChange(event)
+              }
+              name="message"
+              className="nes-input"
+              placeholder="Type your question here"
+            />
+          </div>
+          <div className="nes-field">
+            <input type="submit" value="Send" className="nes-btn is-primary" />
+          </div>
         </form>
       </div>
     );
