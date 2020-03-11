@@ -58,7 +58,9 @@ class MessageList extends React.Component<Props> {
 
 const mapStateToProps = (state: GlobalState) => ({
   messages: state.messages,
-  isCPUAnswering: state.application.appState === "answering the user"
+  isCPUAnswering:
+    state.application.appState === "answering the user" ||
+    state.application.appState === "searching fun fact"
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
