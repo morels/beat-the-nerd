@@ -13,11 +13,26 @@ type Props = OwnProps &
   ReturnType<typeof mapDispatchToProps>;
 
 class MessageList extends React.Component<Props> {
+  constructor(props: Props) {
+    super(props);
+    this.messagesEndlineRef = React.createRef();
+  }
 
+  messagesEndlineRef: React.RefObject<HTMLDivElement> | undefined = undefined;
 
   componentDidMount() {
     this.props.greetTheUser();
   }
+
+  componentDidUpdate() {
+    this.scrollToBottom();
+  }
+
+  private scrollToBottom = () => {
+    this.messagesEndlineRef &&
+      this.messagesEndlineRef.current &&
+      this.messagesEndlineRef.current.scrollIntoView({ behavior: "smooth" });
+  };
 
   render() {
     const messages = this.props.messages;
@@ -35,6 +50,7 @@ class MessageList extends React.Component<Props> {
             </Message>
           )}
         </section>
+        <div ref={this.messagesEndlineRef}></div>
       </section>
     );
   }
