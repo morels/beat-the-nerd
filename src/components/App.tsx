@@ -1,5 +1,10 @@
 import React from "react";
 import Content from "./Content";
+import { connect } from "react-redux";
+import { MyThunkDispatch as Dispatch } from "../actions/message";
+import { startApplication } from "../actions/application";
+
+type Props = ReturnType<typeof mapDispatchToProps>;
 
 function Header() {
   return (
@@ -17,13 +22,19 @@ function Header() {
   );
 }
 
-function App() {
-  return (
-    <div className="App">
-      <Header />
-      <Content />
-    </div>
-  );
+class App extends React.Component<Props> {
+  render() {
+    return (
+      <div className="App">
+        <Header />
+        <Content />
+      </div>
+    );
+  }
 }
 
-export default App;
+const mapDispatchToProps = (dispatch: Dispatch) => ({
+  startApplication: () => dispatch(startApplication())
+});
+
+export default connect(mapDispatchToProps)(App);

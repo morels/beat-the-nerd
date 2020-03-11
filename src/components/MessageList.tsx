@@ -2,43 +2,23 @@ import React from "react";
 import { connect } from "react-redux";
 import { GlobalState } from "../reducers/types";
 import LoadingAnimation from "./LoadingAnimation";
-import { MessageType } from "../actions/message";
-import classNames from "classnames";
-import UIDs from "./UserIds";
+import { giveAnswer } from "../actions/message";
+import { MyThunkDispatch as Dispatch } from "../actions/message";
+import Message from "./Message";
 
 type OwnProps = { style?: React.CSSProperties };
 
-type Props = OwnProps & ReturnType<typeof mapStateToProps>;
-
-type MessageProps = {
-  data?: MessageType;
-};
-
-const Message: React.FunctionComponent<MessageProps> = ({ data, children }) => {
-  const isUserMessage = data && data.uid === UIDs.user;
-  const isCpuMessage = !isUserMessage;
-
-  return (
-    <section
-      className={classNames("message", isCpuMessage ? "-left" : "-right")}
-    >
-      {isCpuMessage && <i className="nes-mario"></i>}
-      <div
-        className={classNames(
-          "nes-balloon",
-          { "from-left": isCpuMessage },
-          { "from-right": isUserMessage }
-        )}
-      >
-        {children}
-        {data && <p>{data.text}</p>}
-      </div>
-      {isUserMessage && <i className="nes-bcrikko"></i>}
-    </section>
-  );
-};
+type Props = OwnProps &
+  ReturnType<typeof mapStateToProps> &
+  ReturnType<typeof mapDispatchToProps>;
 
 class MessageList extends React.Component<Props> {
+
+
+  componentDidMount() {
+    this.props.greetTheUser();
+  }
+
   render() {
     const messages = this.props.messages;
 
@@ -65,4 +45,13 @@ const mapStateToProps = (state: GlobalState) => ({
   isCPUAnswering: state.application.appState === "answering the user"
 });
 
-export default connect(mapStateToProps)(MessageList);
+const mapDispatchToProps = (dispatch: Dispatch) => ({
+  greetTheUser: () =>
+    dispatch(
+      giveAnswer(
+        "Hello! I'm the nerd. Challenge me asking to solve any mathematical operation you want! I'll surprise you..."
+      )
+    )
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(MessageList);
