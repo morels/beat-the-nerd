@@ -1,4 +1,23 @@
+# Beat the nerd
+
+This project consists in an interaction with an open API endpoint. The appearance is like a simple messaging app, where at the opposite edge there is a mocket personality (the nerd) that answers your questions, expected to be all math expressions. 
+
+The UX is enhanced with some gamification where the user is pretended to try beating a nerd able to solve any matematical equation.
+
+The API is provided by Newton API (https://github.com/aunyks/newton-api).
+
+The math-processing endpoint is Simplify (https://github.com/aunyks/newton-api#view-available-endpoints).
+
+Theme used is NES.css (https://nostalgic-css.github.io/NES.css/) with some inline css in js rules.
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+
+## Notes for usage
+The endpoint does not return error in any case:
+* for mathematical operation errors (i.e. divide by zero) it returns a string
+* for any string it returns an identity string if it is not solvable
+
+The endpoint is not protected against huge operations, so if you ask for example 99999^99999 it crashes badly (504: GATEWAY_TIMEOUT).
 
 ## Available Scripts
 
