@@ -16,7 +16,10 @@ class InputBox extends React.Component<Props, OwnState> {
   constructor(props: Props) {
     super(props);
     this.state = INITIAL_STATE;
+    this.focusedInput = React.createRef();
   }
+
+  focusedInput: React.RefObject<HTMLInputElement> | undefined = undefined;
 
   componentDidMount() {
     this.props.waitForUserQuestion();
@@ -31,8 +34,14 @@ class InputBox extends React.Component<Props, OwnState> {
 
     this.props.addMessage(this.state.message);
     this.setState(INITIAL_STATE);
+    this.focusInputBox();
   }
 
+  private focusInputBox = () => {
+    this.focusedInput &&
+      this.focusedInput.current &&
+      this.focusedInput.current.focus();
+  };
   render() {
     const { message } = this.state;
 
@@ -61,6 +70,7 @@ class InputBox extends React.Component<Props, OwnState> {
               name="message"
               className="nes-input"
               placeholder="Type your question here"
+              ref={this.focusedInput}
             />
           </div>
           <div className="nes-field">
