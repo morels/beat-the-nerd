@@ -2,26 +2,60 @@ import React from "react";
 import { connect } from "react-redux";
 import { GlobalState } from "../reducers/types";
 import LoadingAnimation from "./LoadingAnimation";
+import { MessageType } from "../actions/message";
+import classNames from "classnames";
+import UIDs from "./UserIds";
 
-type Props = ReturnType<typeof mapStateToProps>;
+type OwnProps = { style?: React.CSSProperties };
 
-function Message({ data }: { data: string }) {
-  return <li>{data}</li>;
-}
+type Props = OwnProps & ReturnType<typeof mapStateToProps>;
+
+type MessageProps = {
+  data?: MessageType;
+};
+
+const Message: React.FunctionComponent<MessageProps> = ({ data, children }) => {
+  const isUserMessage = data && data.uid === UIDs.user;
+  const isCpuMessage = !isUserMessage;
+
+  return (
+    <section
+      className={classNames("message", isCpuMessage ? "-left" : "-right")}
+    >
+      {isCpuMessage && <i className="nes-mario"></i>}
+      <div
+        className={classNames(
+          "nes-balloon",
+          { "from-left": isCpuMessage },
+          { "from-right": isUserMessage }
+        )}
+      >
+        {children}
+        {data && <p>{data.text}</p>}
+      </div>
+      {isUserMessage && <i className="nes-bcrikko"></i>}
+    </section>
+  );
+};
 
 class MessageList extends React.Component<Props> {
   render() {
     const messages = this.props.messages;
 
     return (
-      <div>
-        <ul>
+      <section className="nes-container with-title" style={this.props.style}>
+        <p className="title">Messages</p>
+        <section className="message-list">
           {messages.map((m, i) => (
-            <Message data={m.text} key={m.id} />
+            <Message data={m} key={m.id} />
           ))}
-        </ul>
-        {this.props.isCPUAnswering && <LoadingAnimation />}
-      </div>
+          {this.props.isCPUAnswering && (
+            <Message>
+              <LoadingAnimation />
+            </Message>
+          )}
+        </section>
+      </section>
     );
   }
 }

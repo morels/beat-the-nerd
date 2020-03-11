@@ -25,7 +25,8 @@ const reducer = (
         ...state,
         {
           text: action.text,
-          id: action.id
+          id: action.id,
+          uid: action.uid
         }
       ];
     case "GET_MESSAGES":

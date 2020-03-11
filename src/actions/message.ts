@@ -49,6 +49,7 @@ export const askQuestion = (message: string): MyThunkResult<Promise<void>> => {
 export type MessageType = {
   text: string;
   id: number;
+  uid: number;
 };
 
 export type MessageActions =
