@@ -7,6 +7,7 @@ export const startApplication = () => ({
 });
 
 export type ApplicationState =
+  | "greeting"
   | "waiting for user question"
   | "answering the user";
 

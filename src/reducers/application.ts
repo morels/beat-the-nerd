@@ -10,7 +10,7 @@ export type AppState = Readonly<{
 }>;
 
 export const initialAppState: AppState = {
-  appState: "waiting for user question"
+  appState: "greeting"
 };
 
 // FIXME: any fix
