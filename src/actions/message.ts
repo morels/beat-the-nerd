@@ -41,7 +41,7 @@ export const askQuestion = (message: string): MyThunkResult<Promise<void>> => {
     dispatch(addMessage(message, UIDs.user));
     dispatch(applicationChangeState("answering the user"));
     const answer = await fetchAnswer(message);
-    giveAnswer(answer);
+    dispatch(giveAnswer(answer));
   };
 };
 
