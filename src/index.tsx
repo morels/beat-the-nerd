@@ -6,6 +6,8 @@ import { createStore, applyMiddleware } from "redux";
 import thunk from 'redux-thunk';
 import rootReducer from "./reducers";
 import App from "./components/App";
+import "../node_modules/nes.css/css/nes.css";
+import "./nes.custom.css";
 
 export const store = createStore(rootReducer, applyMiddleware(thunk));
 
