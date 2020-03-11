@@ -9,7 +9,8 @@ export const startApplication = () => ({
 export type ApplicationState =
   | "greeting"
   | "waiting for user question"
-  | "answering the user";
+  | "answering the user"
+  | "searching fun fact";
 
 export const applicationChangeState = (payload: ApplicationState) => ({
   type: "APP_STATE_CHANGE",
