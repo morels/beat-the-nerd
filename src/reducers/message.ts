@@ -25,7 +25,7 @@ const reducer = (
         ...state,
         {
           text: action.text,
-          id: action.id,
+          id: state.length,
           uid: action.uid
         }
       ];
