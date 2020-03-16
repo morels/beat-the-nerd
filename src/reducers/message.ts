@@ -13,22 +13,23 @@ export type MessagesState = Readonly<MessageType[]>;
 
 export const initialMessagesState: MessagesState = NO_MESSAGES;
 
-// FIXME: any fix
 const reducer = (
   state: MessagesState = initialMessagesState,
-  action: any
+  action: Action
 ): MessagesState => {
   // export default function messageState(state: [], action: Action): MessagesState {
   switch (action.type) {
     case "ADD_MESSAGE":
-      return [
-        ...state,
-        {
-          text: action.text,
-          id: state.length,
-          uid: action.uid
-        }
-      ];
+      return "text" in action && "uid" in action
+        ? [
+            ...state,
+            {
+              text: action.text,
+              id: state.length,
+              uid: action.uid
+            }
+          ]
+        : [...state];
     case "GET_MESSAGES":
       return [...state];
     default:

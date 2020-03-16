@@ -1,6 +1,8 @@
 export type UidType = number;
 
-const UIDs: { [key: string]: UidType } = {
+type UserType = "user" | "cpu";
+
+const UIDs: { [key in UserType]: UidType } = {
   user: 1,
   cpu: 2
 };
