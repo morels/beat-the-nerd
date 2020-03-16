@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import { MyThunkDispatch as Dispatch } from "../actions/message";
 import { startApplication } from "../actions/application";
 
-type Props = ReturnType<typeof mapDispatchToProps>;
+type OwnProps = ReturnType<typeof mapDispatchToProps>;
 
 function Header() {
   return (
@@ -22,7 +22,7 @@ function Header() {
   );
 }
 
-class App extends React.Component<Props> {
+class App extends React.Component<OwnProps> {
   render() {
     return (
       <div className="App">

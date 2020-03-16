@@ -8,12 +8,12 @@ type OwnState = {
   message: string;
 };
 
-type Props = ReturnType<typeof mapDispatchToProps>;
+type OwnProps = ReturnType<typeof mapDispatchToProps>;
 
 const INITIAL_STATE = { message: "" };
 
-class InputBox extends React.Component<Props, OwnState> {
-  constructor(props: Props) {
+class InputBox extends React.Component<OwnProps, OwnState> {
+  constructor(props: OwnProps) {
     super(props);
     this.state = INITIAL_STATE;
     this.focusedInput = React.createRef();
