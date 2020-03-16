@@ -1,6 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
-import { MyThunkDispatch as Dispatch } from "../actions/message";
+import { Dispatch } from "../actions";
 import { askQuestion } from "../actions/message";
 import { applicationChangeState } from "../actions/application";
 

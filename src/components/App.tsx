@@ -1,7 +1,7 @@
 import React from "react";
 import Content from "./Content";
 import { connect } from "react-redux";
-import { MyThunkDispatch as Dispatch } from "../actions/message";
+import { Dispatch } from "../actions";
 import { startApplication } from "../actions/application";
 
 type OwnProps = ReturnType<typeof mapDispatchToProps>;

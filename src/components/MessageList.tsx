@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import { GlobalState } from "../reducers/types";
 import LoadingAnimation from "./LoadingAnimation";
 import { giveAnswer } from "../actions/message";
-import { MyThunkDispatch as Dispatch } from "../actions/message";
+import { Dispatch } from "../actions";
 import Message from "./Message";
 
 type OwnProps = { style?: React.CSSProperties };

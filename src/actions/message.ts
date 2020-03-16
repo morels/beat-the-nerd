@@ -1,23 +1,10 @@
 import UIDs from "../components/UserIds";
-import { Action } from "redux";
-import { ThunkAction, ThunkDispatch } from "redux-thunk";
-import {
-  initialMessagesState
-} from "../reducers/message";
 import NewtonAPIBuilder, { NewtonAPIResponse } from "../components/NewtonAPI";
 import FunFactsAPIBuilder from "../components/FunFactsAPI";
 import { applicationChangeState } from "./application";
 import Error, { isError } from "../components/Error";
 import { fetchWithTO } from "../utils/fetchWithTO";
-
-type MyRootState = typeof initialMessagesState;
-type MyExtraArg = undefined;
-type MyThunkResult<R> = ThunkAction<R, MyRootState, MyExtraArg, Action>;
-// Next Line:
-// It is important to use Action as last type argument, does not work with any.
-export type MyThunkDispatch = ThunkDispatch<MyRootState, MyExtraArg, Action>;
-
-type MessageContentType = Pick<MessageType, "text" | "uid">;
+import { Dispatch, ThunkAction } from ".";
 
 export const addMessage = (text: string, uid: number) => ({
   type: "ADD_MESSAGE",
@@ -56,8 +43,8 @@ const isNaturalPositive = (numberAsString: string): boolean => {
     : numberAsNumber >= 0 && numberAsNumber === Math.trunc(numberAsNumber);
 };
 
-export const askQuestion = (message: string): MyThunkResult<Promise<void>> => {
-  return async (dispatch: MyThunkDispatch): Promise<void> => {
+export const askQuestion = (message: string): ThunkAction<Promise<void>> => {
+  return async (dispatch: Dispatch): Promise<void> => {
     dispatch(addMessage(message, UIDs.user));
     dispatch(applicationChangeState("answering the user"));
     const answerOrError = await fetchNewtonAnswer(message);
@@ -72,8 +59,8 @@ export const askQuestion = (message: string): MyThunkResult<Promise<void>> => {
   };
 };
 
-export const tellFunFact = (message: string): MyThunkResult<Promise<void>> => {
-  return async (dispatch: MyThunkDispatch): Promise<void> => {
+export const tellFunFact = (message: string): ThunkAction<Promise<void>> => {
+  return async (dispatch: Dispatch): Promise<void> => {
     dispatch(applicationChangeState("searching fun fact"));
     const answerOrError = await fetchFunFactAnswer(message);    
     dispatch(
@@ -86,8 +73,8 @@ export const tellFunFact = (message: string): MyThunkResult<Promise<void>> => {
   };
 };
 
-export const giveAnswer = (message: string): MyThunkResult<void> => {
-  return (dispatch: MyThunkDispatch, getState: () => MyRootState): void => {
+export const giveAnswer = (message: string): ThunkAction<void> => {
+  return (dispatch: Dispatch): void => {
     dispatch(addMessage(message, UIDs.cpu));
     dispatch(applicationChangeState("waiting for user question"));
   };
