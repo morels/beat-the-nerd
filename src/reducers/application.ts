@@ -1,4 +1,5 @@
 import { ApplicationState } from "../actions/application";
+import { Action } from "../actions";
 
 /**
  * Implements the ApplicationState reducer.
@@ -13,15 +14,20 @@ export const initialAppState: AppState = {
   appState: "greeting"
 };
 
-// FIXME: any fix
-const reducer = (state: AppState = initialAppState, action: any): AppState => {
-  // export default function messageState(state: [], action: Action): MessagesState {
+const reducer = (
+  state: AppState = initialAppState,
+  action: Action
+): AppState => {
   switch (action.type) {
     case "APP_STATE_CHANGE":
-      return {
-        ...state,
-        appState: action.payload
-      };
+      return "payload" in action
+        ? {
+            ...state,
+            appState: action.payload
+          }
+        : {
+            ...state
+          };
     case "APPLICATION_START":
       return initialAppState;
     default:
