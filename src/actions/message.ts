@@ -16,8 +16,11 @@ export const getMessages = () => ({
   type: "GET_MESSAGES"
 });
 
+const NewtonAPI = NewtonAPIBuilder.getInstance();
+const FunFactsAPI = FunFactsAPIBuilder.getInstance();
+
 const fetchNewtonAnswer = (question: string): Promise<string | Error> => {
-  return fetchWithTO(NewtonAPIBuilder.build(question))
+  return fetchWithTO(NewtonAPI.build(question))
     .then((response: Response) => response.json())
     .then((response: NewtonAPIResponse) => response.result)
     .catch((error: string) => {
@@ -26,10 +29,8 @@ const fetchNewtonAnswer = (question: string): Promise<string | Error> => {
 };
 
 const fetchFunFactAnswer = (question: string): Promise<string | Error> => {
-  const IS_RANDOMIZATION_REQUESTED = true;
-  return fetchWithTO(
-    FunFactsAPIBuilder.build(question, IS_RANDOMIZATION_REQUESTED)
-  )
+  const OPERATION = "random";
+  return fetchWithTO(FunFactsAPI.build(question, OPERATION))
     .then((response: Response) => response.text())
     .catch((error: string) => {
       return new Error(error);
@@ -62,7 +63,7 @@ export const askQuestion = (message: string): ThunkAction<Promise<void>> => {
 export const tellFunFact = (message: string): ThunkAction<Promise<void>> => {
   return async (dispatch: Dispatch): Promise<void> => {
     dispatch(applicationChangeState("searching fun fact"));
-    const answerOrError = await fetchFunFactAnswer(message);    
+    const answerOrError = await fetchFunFactAnswer(message);
     dispatch(
       giveAnswer(
         isError(answerOrError)
