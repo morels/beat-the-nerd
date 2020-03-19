@@ -18,6 +18,8 @@ const middlewares = [thunk];
 const mockStore = configureMockStore<MessagesState, MyThunkDispatch>(
   middlewares
 );
+const NewtonAPI = NewtonAPIBuilder.getInstance();
+const FunFactsAPI = FunFactsAPIBuilder.getInstance();
 
 describe("Newton API", () => {
   afterEach(() => {
@@ -25,7 +27,7 @@ describe("Newton API", () => {
   });
 
   it("returns a courtesy message after having received an error due to invalid input", () => {
-    fetchMock.getOnce(NewtonAPIBuilder.build(""), 404);
+    fetchMock.getOnce(NewtonAPI.build(""), 404);
 
     const expectedActions = [
       {
@@ -54,7 +56,7 @@ describe("Newton API", () => {
   });
 
   it("returns the correct answer to non numeric-positive input", () => {
-    fetchMock.getOnce(NewtonAPIBuilder.build("x+1"), {
+    fetchMock.getOnce(NewtonAPI.build("x+1"), {
       body: {
         operation: "x+1",
         expression: "simplify",
@@ -90,7 +92,7 @@ describe("Newton API", () => {
   });
 
   it("returns the correct answer to numeric-positive input", () => {
-    fetchMock.getOnce(NewtonAPIBuilder.build("2+1"), {
+    fetchMock.getOnce(NewtonAPI.build("2+1"), {
       body: {
         operation: "2+1",
         expression: "simplify",
@@ -98,8 +100,8 @@ describe("Newton API", () => {
       },
       headers: { "content-type": "application/json" }
     });
-    fetchMock.getOnce("http://numbersapi.com/3/trivia", 200);
-    fetchMock.getOnce("http://numbersapi.com/3/math", 200);
+    fetchMock.getOnce(FunFactsAPI.build("3", "trivia"), 200);
+    fetchMock.getOnce(FunFactsAPI.build("3", "math"), 200);
 
     const expectedActions = [
       {
@@ -134,8 +136,8 @@ describe("FunFacts API", () => {
   });
 
   it("returns a courtesy message after having received an error due to invalid input", () => {
-    fetchMock.getOnce("http://numbersapi.com/a/trivia", 400);
-    fetchMock.getOnce("http://numbersapi.com/a/math", 400);
+    fetchMock.getOnce(FunFactsAPI.build("a", "trivia"), 400);
+    fetchMock.getOnce(FunFactsAPI.build("a", "math"), 400);
 
     const expectedActions = [
       { type: "APP_STATE_CHANGE", payload: "searching fun fact" },
@@ -159,11 +161,11 @@ describe("FunFacts API", () => {
   });
 
   it("returns a message containing the success response message ", () => {
-    fetchMock.getOnce("http://numbersapi.com/1/trivia", {
+    fetchMock.getOnce(FunFactsAPI.build("1", "trivia"), {
       body: "Some random sentence with 1.",
       headers: { "content-type": "text/plain" }
     });
-    fetchMock.getOnce("http://numbersapi.com/1/math", {
+    fetchMock.getOnce(FunFactsAPI.build("1", "math"), {
       body: "Some random sentence with 1.",
       headers: { "content-type": "text/plain" }
     });

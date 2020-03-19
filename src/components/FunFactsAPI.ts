@@ -1,4 +1,4 @@
-type OperationType = "math" | "trivia";
+type OperationType = "math" | "trivia" | "random";
 
 export type FunFactsAPIConfigType = {
   server?: string;
@@ -25,17 +25,30 @@ const randomOperation = (): OperationType =>
  * Example:
  * http://numbersapi.com/:number/:operation
  */
-class FunFactsAPIBuilder {
-  config: FunFactsAPIConfigType = INITIAL_CONFIG;
+export default class FunFactsAPIBuilder {
+  private static instance: FunFactsAPIBuilder | undefined;
+
+  private constructor() {}
+
+  public static getInstance = (): FunFactsAPIBuilder => {
+    if (!FunFactsAPIBuilder.instance) {
+      FunFactsAPIBuilder.instance = new FunFactsAPIBuilder();
+    }
+    return FunFactsAPIBuilder.instance;
+  };
+
+  private config: FunFactsAPIConfigType = INITIAL_CONFIG;
 
   public build(
     numberAsString: string,
-    isRandomizationRequested?: boolean
+    operation?: OperationType
   ): FunFactsAPIRequest {
     return `${this.config.server}/${encodeURIComponent(numberAsString)}/${
-      isRandomizationRequested ? randomOperation() : this.config.operation
+      operation
+        ? operation === "random"
+          ? randomOperation()
+          : operation
+        : this.config.operation
     }`;
   }
 }
-
-export default new FunFactsAPIBuilder();
