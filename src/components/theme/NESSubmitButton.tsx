@@ -7,16 +7,22 @@ type NESSubmitButtonOwnProps = {
 
 type NESSubmitButtonProps = Partial<
   NESSubmitButtonOwnProps &
-    Pick<React.AllHTMLAttributes<HTMLButtonElement>, "value">
+    Pick<React.AllHTMLAttributes<HTMLButtonElement>, "value" | "disabled">
 >;
 
 export const NESSubmitButton: React.FunctionComponent<NESSubmitButtonProps> = ({
   value,
-  primary
+  primary,
+  disabled
 }) => (
   <input
     type="submit"
     value={value}
-    className={classNames("nes-btn", { "is-primary": primary })}
+    disabled={disabled}
+    className={classNames(
+      "nes-btn",
+      { "is-primary": primary },
+      { "is-disabled": disabled }
+    )}
   />
 );

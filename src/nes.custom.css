@@ -4,10 +4,14 @@
 
 \*****************************************************************************/
 
-html, body, pre, code, kbd, samp {
+html,
+body,
+pre,
+code,
+kbd,
+samp {
   font-family: "Press Start 2P";
 }
-
 
 /* Balloons sample */
 section.message-list {
@@ -22,7 +26,7 @@ section.message-list {
 }
 .message-list > .message > .nes-balloon {
   max-width: 550px;
-  
+
   min-width: 104px;
   min-height: 64px;
 }
@@ -40,4 +44,22 @@ section.message-list {
 }
 .message-list > .message.-right i {
   margin-left: 2rem;
+}
+
+/* Input disabled style */
+.nes-input.is-disabled,
+.nes-input.is-disabled:hover,
+.nes-input.is-disabled:focus {
+  color: black;
+  cursor: not-allowed;
+  background-color: #d3d3d3;
+  /* box-shadow: inset -4px -4px #adafbc; */
+  opacity: 0.6;
+}
+
+/* Fix Button disabled style */
+.nes-btn.is-disabled,
+.nes-btn.is-disabled:hover,
+.nes-btn.is-disabled:focus {
+  box-shadow: none;
 }
