@@ -3,6 +3,10 @@ import { connect } from "react-redux";
 import { Dispatch } from "../actions";
 import { askQuestion } from "../actions/message";
 import { applicationChangeState } from "../actions/application";
+import { NESField } from "./theme/NESField";
+import { NESFormWrapper } from "./theme/NESFormWrapper";
+import { NESInputText } from "./theme/NESInputText";
+import { NESSubmitButton } from "./theme/NESSubmitButton";
 
 type OwnState = {
   message: string;
@@ -11,6 +15,15 @@ type OwnState = {
 type OwnProps = ReturnType<typeof mapDispatchToProps>;
 
 const INITIAL_STATE = { message: "" };
+
+const styles: { [key: string]: React.CSSProperties } = {
+  formWrapper: {
+    position: "fixed",
+    bottom: 0
+  },
+  form: { display: "flex" },
+  inputTextWrapper: { flex: 1 }
+};
 
 class InputBox extends React.Component<OwnProps, OwnState> {
   constructor(props: OwnProps) {
@@ -46,38 +59,29 @@ class InputBox extends React.Component<OwnProps, OwnState> {
     const { message } = this.state;
 
     return (
-      <div
-        style={{
-          position: "fixed",
-          bottom: 0,
-          width: "100%",
-          backgroundColor: "white"
-        }}
-      >
+      <NESFormWrapper style={styles.formWrapper}>
         <form
           onSubmit={(event: React.FormEvent<HTMLFormElement>) =>
             this.handleSubmit(event)
           }
-          style={{ display: "flex" }}
+          style={styles.form}
         >
-          <div className="nes-field" style={{ flex: 1 }}>
-            <input
-              type="text"
+          <NESField style={styles.inputTextWrapper}>
+            <NESInputText
               value={message}
+              placeholder="Type your question here"
+              name="message"
               onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
                 this.handleChange(event)
               }
-              name="message"
-              className="nes-input"
-              placeholder="Type your question here"
               ref={this.focusedInput}
             />
-          </div>
-          <div className="nes-field">
-            <input type="submit" value="Send" className="nes-btn is-primary" />
-          </div>
+          </NESField>
+          <NESField>
+            <NESSubmitButton value="Send" primary={true} />
+          </NESField>
         </form>
-      </div>
+      </NESFormWrapper>
     );
   }
 }

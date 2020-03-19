@@ -3,30 +3,15 @@ import Content from "./Content";
 import { connect } from "react-redux";
 import { Dispatch } from "../actions";
 import { startApplication } from "../actions/application";
+import { Header } from "./theme/Header";
 
 type OwnProps = ReturnType<typeof mapDispatchToProps>;
-
-function Header() {
-  return (
-    <header>
-      <div
-        style={{
-          margin: "1rem 0",
-          textAlign: "center",
-          borderBottom: "2px solid black"
-        }}
-      >
-        <h1>Beat the Nerd</h1>
-      </div>
-    </header>
-  );
-}
 
 class App extends React.Component<OwnProps> {
   render() {
     return (
-      <div className="App">
-        <Header />
+      <div>
+        <Header title="Beat the Nerd" />
         <Content />
       </div>
     );
