@@ -7,12 +7,14 @@ import { NESField } from "./theme/NESField";
 import { NESFormWrapper } from "./theme/NESFormWrapper";
 import { NESInputText } from "./theme/NESInputText";
 import { NESSubmitButton } from "./theme/NESSubmitButton";
+import { GlobalState } from "../reducers/types";
 
 type OwnState = {
   message: string;
 };
 
-type OwnProps = ReturnType<typeof mapDispatchToProps>;
+type OwnProps = ReturnType<typeof mapDispatchToProps> &
+  ReturnType<typeof mapStateToProps>;
 
 const INITIAL_STATE = { message: "" };
 
@@ -75,10 +77,15 @@ class InputBox extends React.Component<OwnProps, OwnState> {
                 this.handleChange(event)
               }
               ref={this.focusedInput}
+              disabled={this.props.isUserAbleToWrite}
             />
           </NESField>
           <NESField>
-            <NESSubmitButton value="Send" primary={true} />
+            <NESSubmitButton
+              value="Send"
+              primary={true}
+              disabled={this.props.isUserAbleToWrite}
+            />
           </NESField>
         </form>
       </NESFormWrapper>
@@ -92,4 +99,8 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
     dispatch(applicationChangeState("waiting for user question"))
 });
 
-export default connect(null, mapDispatchToProps)(InputBox);
+const mapStateToProps = (state: GlobalState) => ({
+  isUserAbleToWrite: state.application.appState !== "waiting for user question"
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(InputBox);
