@@ -5,12 +5,15 @@ import LoadingAnimation from "./LoadingAnimation";
 import { giveAnswer } from "../actions/message";
 import { Dispatch } from "../actions";
 import Message from "./Message";
+import { NESMessageList } from "./theme/NESMessageList";
 
-type OwnProps = { style?: React.CSSProperties };
-
-type Props = OwnProps &
-  ReturnType<typeof mapStateToProps> &
+type Props = ReturnType<typeof mapStateToProps> &
   ReturnType<typeof mapDispatchToProps>;
+
+const style: React.CSSProperties = {
+  marginTop: "2rem",
+  marginBottom: "4rem"
+};
 
 class MessageList extends React.Component<Props> {
   constructor(props: Props) {
@@ -38,20 +41,20 @@ class MessageList extends React.Component<Props> {
     const messages = this.props.messages;
 
     return (
-      <section className="nes-container with-title" style={this.props.style}>
-        <p className="title">Messages</p>
-        <section className="message-list">
-          {messages.map((m, i) => (
-            <Message data={m} key={m.id} />
-          ))}
-          {this.props.isCPUAnswering && (
-            <Message>
-              <LoadingAnimation />
-            </Message>
-          )}
-        </section>
-        <div ref={this.messagesEndlineRef}></div>
-      </section>
+      <NESMessageList
+        ref={this.messagesEndlineRef}
+        style={style}
+        title="Messages"
+      >
+        {messages.map((m, i) => (
+          <Message data={m} key={m.id} />
+        ))}
+        {this.props.isCPUAnswering && (
+          <Message>
+            <LoadingAnimation />
+          </Message>
+        )}
+      </NESMessageList>
     );
   }
 }
