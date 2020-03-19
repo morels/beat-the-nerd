@@ -1,23 +1,16 @@
 import configureMockStore from "redux-mock-store";
 import thunk from "redux-thunk";
-import {
-  askQuestion,
-  tellFunFact,
-  MyThunkDispatch,
-  addMessage
-} from "./message";
+import { askQuestion, tellFunFact, addMessage } from "./message";
+import { Dispatch } from ".";
 import fetchMock from "fetch-mock";
 import expect from "expect"; // You can use any testing library
 import NewtonAPIBuilder, { NewtonAPIResponse } from "../components/NewtonAPI";
 import FunFactsAPIBuilder from "../components/FunFactsAPI";
 import UIDs from "../components/UserIds";
-import { Action } from "redux";
 import { MessagesState, initialMessagesState } from "../reducers/message";
 
 const middlewares = [thunk];
-const mockStore = configureMockStore<MessagesState, MyThunkDispatch>(
-  middlewares
-);
+const mockStore = configureMockStore<MessagesState, Dispatch>(middlewares);
 const NewtonAPI = NewtonAPIBuilder.getInstance();
 const FunFactsAPI = FunFactsAPIBuilder.getInstance();
 
